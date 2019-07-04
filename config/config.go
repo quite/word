@@ -18,8 +18,6 @@ type Constants struct {
 	Pager     string
 }
 
-var paths []string
-
 func initConstants() (Constants, error) {
 	viper.SetConfigName("config")
 	if xdg := os.Getenv("XDG_CONFIG_HOME"); xdg != "" {

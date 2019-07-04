@@ -80,7 +80,7 @@ func main() {
 			}
 			for _, def := range defs {
 				// TODO custom?
-				fmt.Fprintf(out, "\n# %s\n\n%s", name, string(def.Text))
+				fmt.Fprintf(out, "\n# %s\n\n%s\n\n", name, strings.TrimSpace(string(def.Text)))
 			}
 		}
 	}
