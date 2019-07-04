@@ -14,10 +14,6 @@ import (
 	"golang.org/x/net/dict"
 )
 
-// my shellscript ~/bin/d did this:
-// # first eat whitespace-only lines, then http://sed.sourceforge.net/sed1line.txt
-//   } | sed "s/^[[:space:]]*$//" | sed -e :a -e '/^\n*$/{$d;N;ba' -e '}'
-
 func hasDict(dicts []dict.Dict, name string) bool {
 	for _, dict := range dicts {
 		if dict.Name == name {
