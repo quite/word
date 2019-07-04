@@ -9,8 +9,8 @@ import (
 	"os/exec"
 	"strings"
 
+	"github.com/mattn/go-isatty"
 	"github.com/quite/word/config"
-	"golang.org/x/crypto/ssh/terminal"
 	"golang.org/x/net/dict"
 )
 
@@ -34,7 +34,7 @@ func main() {
 	}
 
 	var out io.WriteCloser = os.Stdout
-	if terminal.IsTerminal(int(os.Stdout.Fd())) {
+	if isatty.IsTerminal(os.Stdout.Fd()) {
 		// https://stackoverflow.com/a/54198703/945568
 		var cmd *exec.Cmd
 		cmd, out = runPager()
