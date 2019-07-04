@@ -36,11 +36,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	if len(os.Args) != 2 {
-		fmt.Println("expected 1 arg: word to look up")
-		os.Exit(2)
-	}
-	word := os.Args[1]
 
 	var out io.WriteCloser = os.Stdout
 	if terminal.IsTerminal(int(os.Stdout.Fd())) {
@@ -57,11 +52,23 @@ func main() {
 	if c, err = dict.Dial("tcp", fmt.Sprintf("%s:%d", conf.Host, conf.Port)); err != nil {
 		panic(err)
 	}
+	defer c.Close()
 
 	dicts, err := c.Dicts()
 	if err != nil {
 		panic(err)
 	}
+
+	if len(os.Args) != 2 {
+		fmt.Printf("expected 1 arg: word to look up\n")
+		fmt.Printf("\ndatabases on %s:%d:\n", conf.Host, conf.Port)
+		for _, dict := range dicts {
+			fmt.Printf("  %s\n    %s\n", dict.Name, dict.Desc)
+		}
+		fmt.Printf("\ndatabases configured: %s\n", strings.Join(conf.Databases, " "))
+		os.Exit(2)
+	}
+	word := os.Args[1]
 
 	for _, name := range conf.Databases {
 		if hasDict(dicts, name) {
