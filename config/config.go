@@ -27,7 +27,9 @@ func initConstants() (Constants, error) {
 	viper.AddConfigPath("$HOME/.word")
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		if _, notFound := err.(viper.ConfigFileNotFoundError); !notFound {
+			panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		}
 	}
 	viper.SetDefault("Host", "localhost")
 	viper.SetDefault("Port", 2628)
